@@ -31,24 +31,20 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
         return new Filter[] {characterEncodingFilter};
     }
 
-    // 📍 파일 업로드 설정 상수
-    final String LOCATION = "c:/upload";
-    final long MAX_FILE_SIZE = 1024 * 1024 * 10L;      // 10MB
-    final long MAX_REQUEST_SIZE = 1024 * 1024 * 20L;   // 20MB
-    final int FILE_SIZE_THRESHOLD = 1024 * 1024 * 5;   // 5MB
+    // 파일 업로드 제한 설정
+    final String LOCATION = "c:/upload";              // 임시 파일 저장 위치
+    final long MAX_FILE_SIZE = 1024 * 1024 * 10L;     // 개별 파일 최대 크기: 10MB
+    final long MAX_REQUEST_SIZE = 1024 * 1024 * 20L;  // 전체 요청 최대 크기: 20MB
+    final int FILE_SIZE_THRESHOLD = 1024 * 1024 * 5;  // 메모리 임계값: 5MB (이상 시 디스크 저장)
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        // 📍 404 에러를 Exception으로 변환
-        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
-
-        // 📍 Multipart 파일 업로드 설정
+        // 멀티파트 설정을 DispatcherServlet에 적용
         MultipartConfigElement multipartConfig = new MultipartConfigElement(
-                LOCATION,           // 업로드 처리 디렉토리 경로
-                MAX_FILE_SIZE,      // 업로드 가능한 파일 하나의 최대 크기
-                MAX_REQUEST_SIZE,   // 업로드 가능한 전체 최대 크기(여러 파일 업로드)
-                FILE_SIZE_THRESHOLD // 메모리 파일의 최대 크기(임계값)
+                LOCATION, MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD
         );
         registration.setMultipartConfig(multipartConfig);
     }
+
+
 }

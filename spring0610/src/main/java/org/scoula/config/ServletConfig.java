@@ -11,8 +11,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan(basePackages = {
-        "org.scoula.exception",    // 📍 예외 처리 패키지 추가, 우선 스캔되도록 앞에 작성
-        "org.scoula.controller"
+        "org.scoula.dynamicweb.exception",    // 📍 예외 처리 패키지 추가, 우선 스캔되도록 앞에 작성
+        "org.scoula.dynamicweb.controller"
 })
 public class ServletConfig implements WebMvcConfigurer {
     @Override
@@ -38,4 +38,5 @@ public class ServletConfig implements WebMvcConfigurer {
                 new StandardServletMultipartResolver();
         return resolver;
     }
+
 }
